@@ -1,4 +1,4 @@
-# Learn Vocabulary (PWA)
+# Learn Vocabulary (PWA) – version 0.0.2
 
 English words with Bengali meanings. Works offline after the first visit.
 
@@ -8,7 +8,8 @@ English words with Bengali meanings. Works offline after the first visit.
 3. Open `https://USERNAME.github.io/REPO/` in Chrome. Menu > Add to Home screen / Install app.
 
 ## Updating
-If you change any file, change `V='lv-v1'` at the top of `sw.js` (e.g. `lv-v2`) so Chrome refreshes the offline cache.
+If you change any file, change `V='lv-v2'` at the top of `sw.js` (e.g. `lv-v3`) so Chrome refreshes the offline cache.
 
 ## Credits
+Fonts: Noto Sans/Serif Bengali, Playfair Display (SIL OFL, see fonts/LICENSE-fonts-OFL.txt).
 Word data: BengaliDictionary by Minhas Kamal (GPL-3.0, see LICENSE-data.txt), filtered with word-frequency ranks from the `wordfreq` package.
