@@ -1,0 +1,10 @@
+const V='lv-v1',CFG='lv-cfg',FILES=['./','index.html','style.css','app.js','manifest.json','data/words.json','icons/icon.svg','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V&&x!==CFG).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(r=>r||fetch(e.request).then(n=>{const cp=n.clone();caches.open(V).then(c=>c.put(e.request,cp));return n}).catch(()=>caches.match('index.html'))))});
+const getCfg=()=>caches.open(CFG).then(c=>c.match('cfg')).then(r=>r?r.json():null);
+const putCfg=o=>caches.open(CFG).then(c=>c.put('cfg',new Response(JSON.stringify(o))));
+self.addEventListener('message',e=>{if(e.data&&e.data.type==='cfg')e.waitUntil(putCfg(e.data))});
+function show(cfg){const n=cfg.next||{};return self.registration.showNotification('Learn Vocabulary',{body:n.w?n.w+' — '+(n.b||''):'Time for your daily words!',icon:'icons/icon-192.png',badge:'icons/icon-192.png',tag:'daily-word',data:{url:'./?page=learn'}})}
+self.addEventListener('periodicsync',e=>{if(e.tag!=='daily-word')return;e.waitUntil((async()=>{const c=await getCfg();if(!c||!c.set||!c.set.notif)return;const d=new Date(),t=new Date(),[h,m]=c.set.time.split(':');t.setHours(+h,+m,0,0);const key=d.toLocaleDateString('en-CA');if(d>=t&&c.last!==key){c.last=key;await putCfg(c);await show(c)}})())});
+self.addEventListener('notificationclick',e=>{e.notification.close();const u=(e.notification.data&&e.notification.data.url)||'./?page=learn';e.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(l=>{for(const c of l){if('focus' in c){c.postMessage({type:'go',page:'learn'});return c.focus()}}return self.clients.openWindow(u)}))});
