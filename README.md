@@ -12,4 +12,4 @@ If you change any file, change `V='lv-v3'` at the top of `sw.js` (e.g. `lv-v4`) 
 
 ## Credits
 Fonts: Noto Sans/Serif Bengali, Playfair Display (SIL OFL, see fonts/LICENSE-fonts-OFL.txt).
-Word data: BengaliDictionary by Minhas Kamal (GPL-3.0, see LICENSE-data.txt), filtered with word-frequency ranks from the `wordfreq` package.
+Word data: BengaliDictionary by Minhas Kamal (GPL-3.0, see LICENSE-data.txt), filtered with word-frequency ranks from the `wordfreq` package .
